@@ -1,0 +1,29 @@
+# Attempt to flood the website with HTTP requests
+
+cat <<EOF > loop.sh
+#!/bin/bash
+
+runtime="3 minute"
+endtime=\$(date -ud "\$runtime" +%s)
+totaltime=0
+
+while [[ \$(date -u +%s) -le \$endtime ]]
+do
+    curl -I "$AlbUrl/?[1-100]" | grep HTTP
+    echo "sleeping for 10 seconds"
+    echo "total time running = \$totaltime seconds"
+    ((totaltime=totaltime+10))
+    sleep 10
+done
+EOF
+
+
+#  Run the script
+#  sh loop.sh
+
+
+# Attempt the SQL injection attack again
+#  https://go9x39ye34.execute-api.us-west-2.amazonaws.com/Dev?id=1
+#  https://go9x39ye34.execute-api.us-west-2.amazonaws.com/Dev?id=2
+#  https://go9x39ye34.execute-api.us-west-2.amazonaws.com/Dev?id=3
+#  https://go9x39ye34.execute-api.us-west-2.amazonaws.com/Dev?id=1 or 1=1
